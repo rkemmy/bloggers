@@ -2,4 +2,4 @@
 virtual/
 *.pyc
 start.sh
-
+migrations/
