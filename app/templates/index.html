@@ -5,3 +5,38 @@
 <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
 
 {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h4>Hey, {{current_user.username}}!</h4>
+        <p>These are your posts </p>
+        <br>
+        {% if posts %}
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Author</th>
+                </tr>
+            </thead>
+            {% for post in posts %}
+                <tbody>
+                    <tr>
+                        <td><a href="{{url_for('main.view_post', post_id=post.id)}}">{{post.title}}</a></td>
+                        <td>{{post.body}}</td>
+                        <td>{{post.author.username.capitalize()}}</td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <a href="{{url_for('main.create_post')}}">Create new post here</a>
+        {% else %}
+            <p>There are no posts. Let's create some. <a href="{{url_for('main.create_post')}}">Create new post here</a></p>
+        {% endif %}
+    </div>
+    <p>
+    </p>
+{% endblock %}
+
