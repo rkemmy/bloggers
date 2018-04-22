@@ -1,6 +1,7 @@
-from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from datetime import datetime
+from . import db, login_manager
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -9,6 +10,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(60), unique=True, index= True)
     username = db.Column(db.String(60), unique=True, index=True)
     password_hash = db.Column(db.String(128))
+    posts = db.relationship('Post', backref = 'author', lazy='dynamic')
 
 
     @login_manager.user_loader
@@ -27,4 +29,22 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User {}>'.format(self.username)
+
+
+class Post(db.Model):
+    __tablename__ = 'posts'
+
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(50), unique=True)
+    body = db.Column(db.String(400))
+    timestamp = db.Column(db.DateTime, index = True, default = datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    # parse timestamp
+    def time_parser(time_str):
+        pass
+
+    def __repr__(self):
+        return '<Posts {}>'.format(self.title)
+
