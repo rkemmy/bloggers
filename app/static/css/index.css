@@ -1,5 +1,5 @@
-body {
-  /*background: url('/static/assets/background.jpg');*/
+.container {
+  background: url('./static/assets/background.jpg');
   padding-top: 60px !important;
 
 }
@@ -7,4 +7,3 @@ body {
 .header {
   text-align: center;
 }
-
