@@ -2,11 +2,32 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
-    <div class="col-md-4 col-md-offset-3">
-        <h4>{{post.title}}</h4>
+    <div class="col-md-6 col-md-offset-3">
+        <h2>{{post.title}}</h2>
         <hr>
-        <p>{{post.body}}</p>
-        <small>Written by: {{post.author.username.capitalize()}} at {{post.timestamp}}</small>
+        <p class="well">{{post.body}}</p>
+        <small>Written by: {{post.author.username.capitalize()}} at {{post.time_parser(post.timestamp)}}</small>
+
+        <br>
+        <br>
+        <br>
+        <h1>Comments</h1>
+        <hr>
+
+        <div class="comments">
+            {% for comment in comments %}
+            <h3>{{comment.username}} says: </h3>
+            <p> {{comment.description}}</p>
+            <hr>
+            {% endfor %}
+
+        </div>
+        <br>
+        <br>
+        <p><a href="{{url_for('main.create_comment', post_id=post.id)}}" >Leave a comment</a></p>
+        <br>
+        <br>
+        <br>
         <p><a href="{{url_for('main.index')}}">Back to posts</a></p>
     </div>
 {% endblock %}
